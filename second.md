@@ -1,1 +1,65 @@
-On a specific day, the exchange rates were as follows: the British pound was valued at $1.487 U.S., the French franc at $0.172, the German deutschemark at $0.584, and the Japanese yen at $0.00955. Write a program that prompts the user to input an amount in U.S. dollars. The program should then display this amount converted into these four other currencies. Test the program by inputting various dollar amounts and ensuring that the conversions to British pounds, French francs, German deutschemarks, and Japanese yen are accurate. Additionally, test the program with negative dollar amounts to verify that it handles invalid input appropriately.
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Employee {
+private:
+    string name;
+    int id;
+    double hourlyRate;
+    double hoursWorked;
+
+public:
+    Employee(string n, int i, double hR) : name(n), id(i), hourlyRate(hR), hoursWorked(0) {}
+    string getName() { return name; }
+    int getId() { return id; }
+    double getHourlyRate() { return hourlyRate; }
+    double getHoursWorked() { return hoursWorked; }
+    void setHoursWorked(double h) { hoursWorked = h; }
+    double calculateGrossPay() { return hourlyRate * hoursWorked; }
+};
+
+class Payroll {
+private:
+    vector<Employee> employees;
+
+public:
+    void addEmployee(Employee e) {
+        employees.push_back(e);
+    }
+    double calculatePayroll() {
+        double totalPayroll = 0.0;
+        for (Employee e : employees) {
+            totalPayroll += e.calculateGrossPay();
+        }
+        return totalPayroll;
+    }
+    void setEmployeeHoursWorked(int index, double hours) {
+        if (index >= 0 && index < employees.size()) {
+            employees[index].setHoursWorked(hours);
+        }
+    }
+    void generatePayrollReport() {
+        cout << "Employee Payroll Report\n";
+        for (Employee e : employees) {
+            cout << "Name: " << e.getName() << "\n";
+            cout << "ID: " << e.getId() << "\n";
+            cout << "Hourly Rate: " << e.getHourlyRate() << "\n";
+            cout << "Hours Worked: " << e.getHoursWorked() << "\n";
+            cout << "Gross Pay: " << e.calculateGrossPay() << "\n\n";
+        }
+        cout << "Total Payroll: " << calculatePayroll() << "\n";
+    }
+};
+
+int main() {
+    Employee e1("Kartik", 123, 45.5);
+    Employee e2("Vishesh", 456, 72.0);
+    Payroll payroll;
+    payroll.addEmployee(e1);
+    payroll.addEmployee(e2);
+    payroll.setEmployeeHoursWorked(0, 40);
+    payroll.setEmployeeHoursWorked(1, 37.5);
+    payroll.generatePayrollReport();
+    return 0;
+}
